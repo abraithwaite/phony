@@ -1,7 +1,10 @@
 package phony
 
-import "github.com/bmizerany/assert"
-import "testing"
+import (
+	"testing"
+
+	"github.com/stretchr/testify/assert"
+)
 
 func TestGet(t *testing.T) {
 	a, _ := Get("name")
