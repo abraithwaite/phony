@@ -1,16 +1,18 @@
 package main
 
-import "github.com/yields/phony/pkg/phony"
-import "github.com/tj/docopt"
-import "math/rand"
-import "io/ioutil"
-import "strconv"
-import "strings"
-import "regexp"
-import "sort"
-import "time"
-import "fmt"
-import "os"
+import (
+	"fmt"
+	"io"
+	"os"
+	"regexp"
+	"sort"
+	"strconv"
+	"strings"
+	"time"
+
+	"github.com/tj/docopt"
+	"github.com/yields/phony/pkg/phony"
+)
 
 var usage = `
   Usage: phony
@@ -56,8 +58,6 @@ func main() {
 		os.Exit(0)
 	}
 
-	rand.Seed(time.Now().UnixNano())
-
 	d := parseDuration(args["--tick"].(string))
 	max := parseInt(args["--max"].(string))
 
@@ -92,7 +92,7 @@ func compile(tmpl string) func() string {
 			if len(parts) == 2 {
 				arguments = strings.Split(parts[1], ",")
 			}
-			data, err := phony.GetWithArgs(parts[0], arguments)
+			data := phony.GetWithArgs(parts[0], arguments)
 			check(err)
 			return data
 		})
@@ -119,7 +119,7 @@ func parseDuration(s string) time.Duration {
 }
 
 func readAll(r *os.File) string {
-	b, err := ioutil.ReadAll(r)
+	b, err := io.ReadAll(r)
 	check(err)
 	return string(b)
 }
